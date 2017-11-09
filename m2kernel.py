@@ -32,15 +32,13 @@ class M2Kernel(Kernel):
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
         if not silent:
-            result = ''
-            i = 0
             child.send(code+'\n'+'\r\n\r\n') 
-            while i == 0:
-                i = child.expect(['\r\n\s+i\d+:','\r\n\s+\r\n\s+\r\n\s+'])
-                result = '\n'.join(child.before.split('\r\n')[1:-1])
-
-                stream_content = {'name': 'stdout', 'text': result}
-                self.send_response(self.iopub_socket, 'stream', stream_content)
+            child.expect(['\r\n\s+\r\n\s+\r\n\s+'])
+            
+            #Output should probably be filtered/formatted
+            result = '\n'.join(child.before.split('\r\n')[1:-1])
+            stream_content = {'name': 'stdout', 'text': result}
+            self.send_response(self.iopub_socket, 'stream', stream_content)
 
             
         return {'status': 'ok',
