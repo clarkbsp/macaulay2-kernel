@@ -36,7 +36,7 @@ class M2Kernel(Kernel):
             i = 0
             child.send(code+'\n'+'\r\n\r\n') 
             while i == 0:
-                i = child.expect(['i\d+','\r\n\s+\r\n\s+\r\n\s+'])
+                i = child.expect(['\r\n\s+i\d+:','\r\n\s+\r\n\s+\r\n\s+'])
                 result = '\n'.join(child.before.split('\r\n')[1:-1])
 
                 stream_content = {'name': 'stdout', 'text': result}
