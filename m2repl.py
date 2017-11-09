@@ -26,10 +26,15 @@ while True:
         if cmd == 'quit' or cmd == 'exit':
             sys.exit()
             
-        child.sendline(cmd)
-        
-        child.expect(['i\d+ :', '\r\n     '])
-        
-        o = child.before.split('\r\n')[1:-1]
-        
-        print('\n'.join(o))
+        #child.send(cmd+'\n')
+        child.send('1\n2\n3'+'\n'+'\r\n')
+        #i = child.expect(['o\d+','i\d+'])#'\r\n     '])
+        #i = child.expect(['i\d+',pexpect.EOF])
+        i=0
+        while i == 0:
+            i = child.expect(['i\d+','\r\n     \r\n     '])
+
+            o = child.before.split('\r\n')[1:-1]
+            #print("Before: ", repr(child.before))
+            #print("After: ", repr(child.after))
+            print('\n'.join(o))
