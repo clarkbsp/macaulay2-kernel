@@ -1,6 +1,6 @@
 {
  "argv": ["python3", "-m", "m2kernel",
           "-f", "{connection_file}"],
- "display_name": "macaulay2",
+ "display_name": "Macaulay2",
  "language": "macaulay2"
 }

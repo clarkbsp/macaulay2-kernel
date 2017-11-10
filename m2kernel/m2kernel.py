@@ -10,15 +10,13 @@ from ipykernel.kernelbase import Kernel
 
 import pexpect
 import re
-import signal
 
 child = pexpect.spawnu("M2")
 
 child.expect ('i\d+ :')
 
-print('\n'.join(child.before.split('\r\n')[:-1]))
+banner_msg = '\n'.join(child.before.split('\r\n'))[:-1]
 
-#signal.signal(signal.SIGINT,print("interupt_received"))
 
 class M2Kernel(Kernel):
     
@@ -26,14 +24,15 @@ class M2Kernel(Kernel):
     implementation_version = '0.01'
     language = 'Macaulay2'
     language_version = '1.92'
-    language_info = {'name': 'Macaulay2', 
+    language_info = {'name': 'Macaulay2',
+                     'file_extension': '.m2',
                      'mimetype': 'text/plain'}
-    banner = "Macaulay2"
+    banner = banner_msg
     
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
-        code = '\n'.join(re.findall('(?:"[^"]*"|.)+', code))#Collapses newlines in code
         if not silent:
+            code = '\n'.join(re.findall('(?:"[^"]*"|.)+', code))#Merges newlines
             child.send(code+'\n'+'\r\n\r\n') 
             child.expect(['\r\n\s+\r\n\s+\r\n\s+'])
             
@@ -42,7 +41,6 @@ class M2Kernel(Kernel):
             stream_content = {'name': 'stdout', 'text': result}
             self.send_response(self.iopub_socket, 'stream', stream_content)
 
-            
         return {'status': 'ok',
                 'execution_count': self.execution_count,
                 'payload': [],
