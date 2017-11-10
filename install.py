@@ -19,7 +19,7 @@ elif os_name == 'Darwin':
     
 else:
     print('Unsupported platform', os_name)
-    sys.exit
+    sys.exit()
     
 kernel_json = {
  "argv": ["python3", kernel_path+'m2kernel.py',
