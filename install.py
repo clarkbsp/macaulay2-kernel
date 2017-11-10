@@ -9,11 +9,13 @@ Created on Fri Nov 10 00:33:30 2017
 import json, os, platform, subprocess, sys
 
 os_name = platform.system()
-if os_name == 'Linux' or os_name == 'Linux2': 
+if os_name == 'Linux' or os_name == 'Linux2':
+    print("Linux Detected")
     kernel_path = os.path.expanduser('~/.local/share/jupyter/kernels/m2kernel/')
     
 elif os_name == 'Darwin':
-    kernel_path = os.path.expanduser('~/Library/Jupyter//kernels/m2kernel/')
+    print("Mac Detected")
+    kernel_path = os.path.expanduser('~/Library/Jupyter/kernels/m2kernel/')
     
 else:
     print('Unsupported platform', os_name)
