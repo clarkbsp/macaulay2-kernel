@@ -13,7 +13,7 @@ import re
 
 child = pexpect.spawnu("M2")
 
-child.expect ('i\d+ :')
+child.expect (u'i\d+ :')
 
 banner_msg = '\n'.join(child.before.split('\r\n'))[:-1]
 
@@ -34,7 +34,7 @@ class M2Kernel(Kernel):
         if not silent:
             code = '\n'.join(re.findall('(?:"[^"]*"|.)+', code))#Merges newlines
             child.send(code+'\n'+'\r\n\r\n') 
-            child.expect(['\r\n\s+\r\n\s+\r\n\s+'])
+            child.expect([u'\r\n\s+\r\n\s+\r\n\s+'])
             
             #Output should probably be filtered/formatted
             result = '\n'.join(child.before.split('\r\n')[:-1])
